@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 
 const page = ({ params }) => {
     const { product } = params
-    const { isLoading, error, data: single_data } = useQuery({
+    const { isLoading, data: single_data } = useQuery({
         queryKey: ['single'],
         queryFn: () =>
             fetch(`http://localhost:3000/api/laptop/${product}`)
@@ -14,7 +14,7 @@ const page = ({ params }) => {
 
     return (
         <>
-            <ProductSection productData={single_data} />
+            <ProductSection productData={single_data} isLoading={isLoading} />
         </>
     )
 }

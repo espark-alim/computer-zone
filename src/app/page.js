@@ -13,7 +13,14 @@ export default function Home() {
   return (
     <>
       <StoreHeading />
-      <ProductListings products={laptops} />
+      {isLoading ? (
+        <h1 className="leading-relaxed font-primary font-extrabold text-2xl text-center text-palette-primary mt-4 py-2 sm:py-4">
+          {'waiting...!'}
+        </h1>) : (
+        <>
+          <ProductListings products={laptops} />
+        </>
+      )}
     </>
   )
 }
