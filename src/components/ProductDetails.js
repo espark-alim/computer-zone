@@ -13,12 +13,13 @@ function ProductDetails({ productData }) {
         price={productData?.price}
       />
       <ProductForm
-        id={productData?.laptopId}
+        id={productData?.id}
         brand={productData?.brand}
         model={productData?.model}
         price={productData?.price}
         mainImg={productData?.image}
         sizes={productData?.sizes}
+        product={productData?.product}
       />
     </div>
   )

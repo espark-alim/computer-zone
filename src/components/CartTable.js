@@ -12,14 +12,16 @@ function CartTable({ cart }) {
 
   useEffect(() => {
     setCartItems(cart)
+    const totalSum = cart.reduce((acc, item) => acc + (item?.price || 0), 0);
+    setSubtotal(totalSum)
   }, [cart])
 
-  function updateItem(laptopId, size) {
-    dispatch(removeFromCard({ laptopId, size }))
+  function updateItem(id, size, product) {
+    dispatch(removeFromCard({ id, size, product }))
   }
 
-  function handleQuantityChange(laptopId, size, quantity) {
-    dispatch(updateQuantity({ laptopId, size, quantity: parseInt(quantity) }))
+  function handleQuantityChange(id, size, quantity, product) {
+    dispatch(updateQuantity({ id, size, quantity: parseInt(quantity), product }))
   }
 
   return (
@@ -35,7 +37,7 @@ function CartTable({ cart }) {
           </tr>
         </thead>
         <tbody className="divide-y divide-palette-lighter">
-          {cartItems.map(item => (
+          {cartItems?.map(item => (
             <tr key={item.variantId} className="text-sm sm:text-base text-gray-600 text-center">
               <td className="font-primary font-medium px-4 sm:px-6 py-4 flex items-center">
                 <img
@@ -45,7 +47,7 @@ function CartTable({ cart }) {
                   width={64}
                   className={`hidden sm:inline-flex`}
                 />
-                <Link className="pt-1 hover:text-palette-dark" href={`/product/${item?.brand || '#'}`}>
+                <Link className="pt-1 hover:text-palette-dark" href={`/${item?.product}/${item?.id || '#'}`}>
                   {item?.brand}, {item?.model}
                 </Link>
               </td>
@@ -61,7 +63,7 @@ function CartTable({ cart }) {
                   min="1"
                   step="1"
                   value={item?.quantity}
-                  onChange={(e) => handleQuantityChange(item.laptopId, item.size, e.target.value)}
+                  onChange={(e) => handleQuantityChange(item.id, item.size, e.target.value, item.product)}
                   className="text-gray-900 form-input border border-gray-300 w-16 rounded-sm focus:border-palette-light focus:ring-palette-light"
                 />
               </td>
@@ -76,7 +78,7 @@ function CartTable({ cart }) {
                 <button
                   aria-label="delete-item"
                   className=""
-                  onClick={() => updateItem(item.laptopId, item.size)}
+                  onClick={() => updateItem(item.id, item.size, item?.product)}
                 >
                   cancel
                 </button>
@@ -88,6 +90,7 @@ function CartTable({ cart }) {
               null
               :
               <tr className="text-center">
+                <td></td>
                 <td></td>
                 <td className="font-primary text-base text-gray-600 font-semibold uppercase px-4 sm:px-6 py-4">Subtotal</td>
                 <td className="font-primary text-lg text-palette-primary font-medium px-4 sm:px-6 py-4">

@@ -7,7 +7,7 @@ function ProductCard({ product }) {
 
   return (
     <Link
-      href={`/product/${product?.brand || '#'}`}
+      href={`/${product?.product}/${product?.id || '#'}`}
       className="h-120 w-82 rounded shadow-lg mx-auto border border-palette-lighter"
     >
       <div className="h-72 border-b-2 border-palette-lighter relative">
